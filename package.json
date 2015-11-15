@@ -1,0 +1,21 @@
+{
+  "name": "ide-csound",
+  "main": "./lib/ide-csound",
+  "version": "0.0.0",
+  "description": "IDE for Csound",
+  "keywords": [
+    "csound",
+    "music",
+    "sound"
+  ],
+  "activationCommands": {},
+  "repository": "https://github.com/nwhetsell/ide-csound",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {
+    "csound-api": "latest",
+    "fs-plus": "2.x"
+  }
+}

@@ -1,0 +1,21 @@
+'context-menu':
+  'atom-text-editor': [
+    {
+      'label': 'Run In Csound'
+      'command': 'ide-csound:run'
+    }
+  ]
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'Csound'
+      'submenu': [
+        {
+          'label': 'Run'
+          'command': 'ide-csound:run'
+        }
+      ]
+    ]
+  }
+]
