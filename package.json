@@ -15,7 +15,9 @@
     "atom": ">=1.0.0 <2.0.0"
   },
   "dependencies": {
+    "cheerio": "latest",
     "csound-api": "latest",
+    "d3": "3.x",
     "fs-plus": "2.x"
   }
 }

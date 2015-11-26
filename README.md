@@ -1,6 +1,9 @@
 # Csound IDE for Atom
 
-This [Atom](https://atom.io) package adds a command for running [Csound](https://en.wikipedia.org/wiki/Csound) and displaying Csound output within Atom.
+This [Atom](https://atom.io) package adds commands for
+
+1. running [Csound](https://en.wikipedia.org/wiki/Csound) and displaying Csound output; and
+2. displaying descriptions of opcodes from [Csound’s manual](http://csound.github.io/docs/manual/PartReference.html).
 
 ## Installing
 

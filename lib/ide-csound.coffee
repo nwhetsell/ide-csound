@@ -2,17 +2,32 @@
 csound = require 'csound-api'
 fs = require 'fs-plus'
 path = require 'path'
-MessageHistory = require './message-history'
+HelpElement = require './help-element'
 MessageHistoryElement = require './message-history-element'
 MessageManager = require './message-manager'
 
 module.exports =
 Csound =
   config:
+    CSDOCDIR:
+      title: 'Directory containing Csound’s manual in HTML'
+      type: 'string'
+      description: 'Csound’s `CSDOCDIR` environment variable'
+      default: ''
+    SADIR:
+      title: 'Default directory for saving analysis files'
+      type: 'string'
+      description: 'Csound’s `SADIR` environment variable'
+      default: '~/Documents'
     SFDIR:
       title: 'Default directory for saving sound files'
       type: 'string'
-      description: 'Csound’s SFDIR environment variable'
+      description: 'Csound’s `SFDIR` environment variable'
+      default: '~/Documents'
+    SSDIR:
+      title: 'Default directory for loading sound and MIDI files'
+      type: 'string'
+      description: 'Csound’s `SSDIR` environment variable'
       default: '~/Documents'
 
   Csound: null
@@ -28,11 +43,7 @@ Csound =
 
     @subscriptions = new CompositeDisposable
     @subscriptions.add atom.commands.add 'atom-workspace', 'ide-csound:run': => @run()
-
-    atom.views.addViewProvider MessageHistory, (messageHistory) ->
-      element = new MessageHistoryElement
-      element.initialize messageHistory
-      element
+    @subscriptions.add atom.commands.add 'atom-workspace', 'ide-csound:show-help-for-selected-opcode': => @showHelpForSelectedOpcode()
 
   deactivate: ->
     @subscriptions.dispose()
@@ -40,7 +51,9 @@ Csound =
   run: ->
     previousActivePane = atom.workspace.getActivePane()
     editor = atom.workspace.getActiveTextEditor()
-    atom.workspace.getActivePane().splitDown {items: [new MessageHistory @messageManager, editor]}
+    messageHistoryElement = new MessageHistoryElement
+    messageHistoryElement.initialize @messageManager, editor
+    atom.workspace.getActivePane().splitDown {items: [messageHistoryElement]}
     previousActivePane.activate()
     switch editor.getGrammar().name
       when 'Csound Document'
@@ -57,9 +70,23 @@ Csound =
       else
         result = csound.CompileOrc @Csound, editor.getText()
     return if result isnt csound.CSOUND_SUCCESS
+
     result = csound.Start @Csound
     if result is csound.CSOUND_SUCCESS
       csound.PerformAsync @Csound, (result) =>
         csound.Reset @Csound
     else
       csound.Reset @Csound
+
+  showHelpForSelectedOpcode: ->
+    editor = atom.workspace.getActiveTextEditor()
+    editor.selectWordsContainingCursors()
+    opcodeName = editor.getSelectedText()
+    filename = if opcodeName is '0dbfs' then 'Zerodbfs' else opcodeName
+    fs.readFile fs.normalize(path.join atom.config.get('ide-csound.CSDOCDIR'), filename + '.html'), 'utf8', (error, data) ->
+      return if error
+      helpElement = new HelpElement
+      helpElement.showHelpForOpcode opcodeName, data
+      previousActivePane = atom.workspace.getActivePane()
+      atom.workspace.getActivePane().splitRight {items: [helpElement]}
+      previousActivePane.activate()

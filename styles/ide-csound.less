@@ -1,25 +1,30 @@
 @import "ui-variables";
 
+csound-help {
+  background-color: @pane-item-background-color;
+  font-size: 1.2em;
+  overflow: auto;
+  padding: 2em;
+
+  // From https://github.com/atom/markdown-preview/tree/master/styles
+  atom-text-editor {
+    margin: 1.5em 0;
+    padding: 1em;
+    border-radius: 3px;
+    background-color: contrast(@syntax-background-color, lighten(@syntax-background-color, 4%), darken(@syntax-background-color, 4%));
+  }
+}
+
 csound-message-history {
+  background-color: @pane-item-background-color;
   overflow: auto;
   pre {
+    background-color: inherit;
     font-size: @font-size;
-    .highlight {
-      padding-left: 0;
-      padding-right: 0;
-    }
-    .highlight-info {
-      padding-left: 0;
-      padding-right: 0;
-    }
-    .highlight-success {
-      padding-left: 0;
-      padding-right: 0;
-    }
-    .highlight-warning {
-      padding-left: 0;
-      padding-right: 0;
-    }
+    .highlight,
+    .highlight-info,
+    .highlight-success,
+    .highlight-warning,
     .highlight-error {
       padding-left: 0;
       padding-right: 0;
@@ -78,4 +83,17 @@ csound-message-history {
       background-color: rgb(215, 215, 215);
     }
   }
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.line {
+  fill: none;
+  stroke: @background-color-info;
+  stroke-width: 1px;
 }
