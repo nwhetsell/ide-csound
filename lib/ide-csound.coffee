@@ -80,15 +80,30 @@ Csound =
     else
       csound.Reset @Csound
 
+  showHelpForOpcode: (opcodeName) ->
+    filename = if opcodeName is '0dbfs' then 'Zerodbfs' else opcodeName
+    fs.readFile fs.normalize(path.join atom.config.get('ide-csound.CSDOCDIR'), filename + '.html'), 'utf8', (error, data) =>
+      return if error
+
+      helpElement = new HelpElement
+      helpElement.showHelpForOpcode data, opcodeName
+
+      for aElement in helpElement.querySelectorAll('a.link')
+        aElement.removeAttribute('title')
+        aElement.onclick = =>
+          @showHelpForOpcode aElement.textContent
+
+      if @helpPane
+        @helpPane.addItem helpElement
+        @helpPane.activateItem helpElement
+      else
+        previousActivePane = atom.workspace.getActivePane()
+        @helpPane = atom.workspace.getActivePane().splitRight {items: [helpElement]}
+        @subscriptions.add @helpPane.onDidDestroy =>
+          @helpPane = undefined
+        previousActivePane.activate()
+
   showHelpForSelectedOpcode: ->
     editor = atom.workspace.getActiveTextEditor()
     editor.selectWordsContainingCursors()
-    opcodeName = editor.getSelectedText()
-    filename = if opcodeName is '0dbfs' then 'Zerodbfs' else opcodeName
-    fs.readFile fs.normalize(path.join atom.config.get('ide-csound.CSDOCDIR'), filename + '.html'), 'utf8', (error, data) ->
-      return if error
-      helpElement = new HelpElement
-      helpElement.showHelpForOpcode opcodeName, data
-      previousActivePane = atom.workspace.getActivePane()
-      atom.workspace.getActivePane().splitRight {items: [helpElement]}
-      previousActivePane.activate()
+    @showHelpForOpcode editor.getSelectedText()

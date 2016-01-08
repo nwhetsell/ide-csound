@@ -4,7 +4,7 @@ class HelpElement extends HTMLElement
   getTitle: ->
     @opcodeName
 
-  showHelpForOpcode: (@opcodeName, data) ->
+  showHelpForOpcode: (data, @opcodeName) ->
     $ = cheerio.load data
     refentry = $ '.refentry'
 
@@ -27,6 +27,7 @@ class HelpElement extends HTMLElement
       child.remove()
 
     $('.example', refentry).removeAttr('class')
+
     @innerHTML = refentry.html()
 
     # Replacing pre elements with Atom editors this way is based on the
