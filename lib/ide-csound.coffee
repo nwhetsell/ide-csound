@@ -69,7 +69,10 @@ Csound =
         result = csound.CompileArgs @Csound, ['csound', editor.getPath()]
       else
         result = csound.CompileOrc @Csound, editor.getText()
-    return if result isnt csound.CSOUND_SUCCESS
+    if result isnt csound.CSOUND_SUCCESS
+      csound.Reset @Csound
+      return
+
 
     result = csound.Start @Csound
     if result is csound.CSOUND_SUCCESS
