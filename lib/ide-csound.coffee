@@ -73,7 +73,6 @@ Csound =
       csound.Reset @Csound
       return
 
-
     result = csound.Start @Csound
     if result is csound.CSOUND_SUCCESS
       csound.PerformAsync @Csound, (result) =>
