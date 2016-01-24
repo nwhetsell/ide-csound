@@ -85,11 +85,16 @@ csound-message-history {
   }
 }
 
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
+.axis {
+  line,
+  path {
+    fill: none;
+    stroke: @text-color;
+    shape-rendering: crispEdges;
+  }
+  text {
+    fill: @text-color;
+  }
 }
 
 .line {
