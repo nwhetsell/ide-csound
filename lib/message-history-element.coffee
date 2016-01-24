@@ -5,11 +5,26 @@ class MessageHistoryElement extends HTMLElement
   initialize: (messageManager, @editor) ->
     messageManager.onDidReceiveMessage (message) => @handleMessage(message)
     messageManager.onGraphCreationRequest (request) => @handleGraphCreationRequest(request)
+    messageManager.onGraphDrawingRequest (request) => @handleGraphDrawingRequest(request)
 
   getTitle: ->
     @editor.getTitle() + ' Csound output'
 
   handleGraphCreationRequest: ({name, data}) ->
+    graphElement = document.createElement 'div'
+    @divsForGraphIDs ?= {}
+    @divsForGraphIDs[data.windid] = graphElement
+
+    @handleGraphDrawingRequest data
+
+    nextSibling = @nextSiblingsForGraphCaptions?[data.caption.trim()]
+    if nextSibling
+      @insertBefore graphElement, nextSibling
+    else
+      @appendChild graphElement
+    @scrollTop += graphElement.clientHeight
+
+  handleGraphDrawingRequest: (data) ->
     margin = {top: 20, right: 20, bottom: 30, left: 50}
     width = 650 - margin.left - margin.right
     height = 340 - margin.top - margin.bottom
@@ -55,13 +70,12 @@ class MessageHistoryElement extends HTMLElement
         .attr('class', 'line')
         .attr('d', line)
 
-    @appendChild(document.createElement 'div').innerHTML = svgElement.outerHTML
+    graphElement = @divsForGraphIDs?[data.windid]
+    graphElement?.innerHTML = svgElement.outerHTML
 
   handleMessage: ({string, attributes}) ->
     if @lastChild?.localName isnt 'pre'
       @messageContainer = @appendChild document.createElement 'pre'
-
-    needsScroll = (@scrollTop >= @scrollHeight - @clientHeight)
 
     messageType = attributes & csound.CSOUNDMSG_TYPE_MASK
     if messageType is csound.CSOUNDMSG_DEFAULT
@@ -119,7 +133,11 @@ class MessageHistoryElement extends HTMLElement
         span.classList.add className
     span.appendChild document.createTextNode string
 
-    if needsScroll
-      @scrollTop = @scrollHeight - @clientHeight
+    @scrollTop = @scrollHeight - @clientHeight
+
+    if /^ftable\s*\d+/.test string
+      @messageContainer = @appendChild document.createElement 'pre'
+      @nextSiblingsForGraphCaptions ?= {}
+      @nextSiblingsForGraphCaptions[string.trim()] = @messageContainer
 
 module.exports = MessageHistoryElement = document.registerElement 'csound-message-history', prototype: MessageHistoryElement.prototype
