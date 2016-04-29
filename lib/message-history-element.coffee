@@ -77,55 +77,55 @@ class MessageHistoryElement extends HTMLElement
     if @lastChild?.localName isnt 'pre'
       @messageContainer = @appendChild document.createElement 'pre'
 
-    messageType = attributes & csound.CSOUNDMSG_TYPE_MASK
-    if messageType is csound.CSOUNDMSG_DEFAULT
+    messageType = attributes & csound.MSG_TYPE_MASK
+    if messageType is csound.MSG_DEFAULT
       span = @messageContainer.appendChild document.createElement 'span'
-      switch attributes & csound.CSOUNDMSG_FG_COLOR_MASK
-        when csound.CSOUNDMSG_FG_BLACK
+      switch attributes & csound.MSG_FG_COLOR_MASK
+        when csound.MSG_FG_BLACK
           span.classList.add 'csound-message-foreground-black'
-        when csound.CSOUNDMSG_FG_RED
+        when csound.MSG_FG_RED
           span.classList.add 'csound-message-foreground-red'
-        when csound.CSOUNDMSG_FG_GREEN
+        when csound.MSG_FG_GREEN
           span.classList.add 'csound-message-foreground-green'
-        when csound.CSOUNDMSG_FG_YELLOW
+        when csound.MSG_FG_YELLOW
           span.classList.add 'csound-message-foreground-yellow'
-        when csound.CSOUNDMSG_FG_BLUE
+        when csound.MSG_FG_BLUE
           span.classList.add 'csound-message-foreground-blue'
-        when csound.CSOUNDMSG_FG_MAGENTA
+        when csound.MSG_FG_MAGENTA
           span.classList.add 'csound-message-foreground-magenta'
-        when csound.CSOUNDMSG_FG_CYAN
+        when csound.MSG_FG_CYAN
           span.classList.add 'csound-message-foreground-cyan'
-        when csound.CSOUNDMSG_FG_WHITE
+        when csound.MSG_FG_WHITE
           span.classList.add 'csound-message-foreground-white'
-      if attributes & csound.CSOUNDMSG_FG_BOLD
+      if attributes & csound.MSG_FG_BOLD
         span.classList.add 'highlight'
-      if attributes & csound.CSOUNDMSG_FG_UNDERLINE
+      if attributes & csound.MSG_FG_UNDERLINE
         span.classList.add 'csound-message-underline'
-      switch attributes & csound.CSOUNDMSG_BG_COLOR_MASK
-        when csound.CSOUNDMSG_BG_BLACK
+      switch attributes & csound.MSG_BG_COLOR_MASK
+        when csound.MSG_BG_BLACK
           span.classList.add 'csound-message-background-black'
-        when csound.CSOUNDMSG_BG_RED
+        when csound.MSG_BG_RED
           span.classList.add 'csound-message-background-red'
-        when csound.CSOUNDMSG_BG_GREEN
+        when csound.MSG_BG_GREEN
           span.classList.add 'csound-message-background-green'
-        when csound.CSOUNDMSG_BG_ORANGE
+        when csound.MSG_BG_ORANGE
           span.classList.add 'csound-message-background-yellow'
-        when csound.CSOUNDMSG_BG_BLUE
+        when csound.MSG_BG_BLUE
           span.classList.add 'csound-message-background-blue'
-        when csound.CSOUNDMSG_BG_MAGENTA
+        when csound.MSG_BG_MAGENTA
           span.classList.add 'csound-message-background-magenta'
-        when csound.CSOUNDMSG_BG_CYAN
+        when csound.MSG_BG_CYAN
           span.classList.add 'csound-message-background-cyan'
-        when csound.CSOUNDMSG_BG_GREY
+        when csound.MSG_BG_GREY
           span.classList.add 'csound-message-background-white'
     else
       className= 'highlight-'
       switch messageType
-        when csound.CSOUNDMSG_ERROR
+        when csound.MSG_ERROR
           className += 'error'
-        when csound.CSOUNDMSG_ORCH or csound.CSOUNDMSG_REALTIME
+        when csound.MSG_ORCH or csound.MSG_REALTIME
           className += 'info'
-        when csound.CSOUNDMSG_WARNING
+        when csound.MSG_WARNING
           className += 'warning'
       span = @messageContainer.lastChild
       unless span?.classList.contains className
