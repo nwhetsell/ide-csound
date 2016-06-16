@@ -75,11 +75,11 @@ class MessageHistoryElement extends HTMLElement
 
   handleMessage: ({string, attributes}) ->
     if @lastChild?.localName isnt 'pre'
-      @messageContainer = @appendChild document.createElement 'pre'
+      @messageContainer = @appendChild document.createElement('pre')
 
     messageType = attributes & csound.MSG_TYPE_MASK
     if messageType is csound.MSG_DEFAULT
-      span = @messageContainer.appendChild document.createElement 'span'
+      span = @messageContainer.appendChild document.createElement('span')
       switch attributes & csound.MSG_FG_COLOR_MASK
         when csound.MSG_FG_BLACK
           span.classList.add 'csound-message-foreground-black'
@@ -119,7 +119,7 @@ class MessageHistoryElement extends HTMLElement
         when csound.MSG_BG_GREY
           span.classList.add 'csound-message-background-white'
     else
-      className= 'highlight-'
+      className = 'highlight-'
       switch messageType
         when csound.MSG_ERROR
           className += 'error'
@@ -129,14 +129,14 @@ class MessageHistoryElement extends HTMLElement
           className += 'warning'
       span = @messageContainer.lastChild
       unless span?.classList.contains className
-        span = @messageContainer.appendChild document.createElement 'span'
+        span = @messageContainer.appendChild document.createElement('span')
         span.classList.add className
-    span.appendChild document.createTextNode string
+    span.appendChild document.createTextNode(string)
 
     @scrollTop = @scrollHeight - @clientHeight
 
     if /^ftable\s*\d+/.test string
-      @messageContainer = @appendChild document.createElement 'pre'
+      @messageContainer = @appendChild document.createElement('pre')
       @nextSiblingsForGraphCaptions ?= {}
       @nextSiblingsForGraphCaptions[string.trim()] = @messageContainer
 

@@ -30,16 +30,10 @@ Csound =
       description: 'Csound’s `SSDIR` environment variable'
       default: '~/Documents'
 
-  Csound: null
-
-  messageManager: null
-
-  subscriptions: null
-
   activate: (state) ->
-    csound.SetGlobalEnv 'SFDIR', fs.normalize atom.config.get 'ide-csound.SFDIR'
+    csound.SetGlobalEnv 'SFDIR', fs.normalize(atom.config.get('ide-csound.SFDIR'))
     @Csound = csound.Create()
-    @messageManager = new MessageManager csound, @Csound
+    @messageManager = new MessageManager(csound, @Csound)
 
     @subscriptions = new CompositeDisposable
     @subscriptions.add atom.commands.add 'atom-workspace', 'ide-csound:run': => @run()

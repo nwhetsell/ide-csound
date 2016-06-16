@@ -32,13 +32,13 @@ class HelpElement extends HTMLElement
 
     # Replacing pre elements with Atom editors this way is based on the
     # markdown-preview package (https://github.com/atom/markdown-preview).
-    for preElement in @querySelectorAll('pre.programlisting')
-      editorElement = document.createElement('atom-text-editor')
-      editorElement.setAttributeNode document.createAttribute 'gutter-hidden'
+    for preElement in @querySelectorAll 'pre.programlisting'
+      editorElement = document.createElement 'atom-text-editor'
+      editorElement.setAttributeNode document.createAttribute('gutter-hidden')
       preElement.parentNode.insertBefore editorElement, preElement
       preElement.remove()
       editor = editorElement.getModel()
       editor.setText preElement.textContent.trim()
-      editor.setGrammar atom.grammars.grammarForScopeName 'source.csound-document'
+      editor.setGrammar atom.grammars.grammarForScopeName('source.csound-document')
 
 module.exports = HelpElement = document.registerElement 'csound-help', prototype: HelpElement.prototype

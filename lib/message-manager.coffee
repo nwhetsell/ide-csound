@@ -5,8 +5,10 @@ class MessageManager
   constructor: (csound, Csound) ->
     @emitter = new Emitter
 
-    csound.SetMessageCallback Csound, (attributes, string) =>
+    messageCallback = (Csound, attributes, string) =>
       @emitter.emit 'did-receive-message', {string: string, attributes: attributes}
+    csound.SetDefaultMessageCallback messageCallback
+    csound.SetMessageCallback Csound, messageCallback
 
     csound.SetIsGraphable Csound, true
     csound.SetMakeGraphCallback Csound, (data, name) =>
