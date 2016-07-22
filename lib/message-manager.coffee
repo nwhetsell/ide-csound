@@ -5,7 +5,7 @@ class MessageManager
   constructor: (csound, Csound) ->
     @emitter = new Emitter
 
-    messageCallback = (Csound, attributes, string) =>
+    messageCallback = (attributes, string) =>
       @emitter.emit 'did-receive-message', {string: string, attributes: attributes}
     csound.SetDefaultMessageCallback messageCallback
     csound.SetMessageCallback Csound, messageCallback
