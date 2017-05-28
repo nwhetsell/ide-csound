@@ -43,8 +43,9 @@ Csound =
     @subscriptions.dispose()
 
   run: ->
-    previousActivePane = atom.workspace.getActivePane()
     editor = atom.workspace.getActiveTextEditor()
+    return unless editor
+    previousActivePane = atom.workspace.getActivePane()
     messageHistoryElement = new MessageHistoryElement
     messageHistoryElement.initialize @messageManager, editor
     atom.workspace.getActivePane().splitDown {items: [messageHistoryElement]}
