@@ -50,30 +50,34 @@ Csound =
     messageHistoryElement.initialize @messageManager, editor
     atom.workspace.getActivePane().splitDown {items: [messageHistoryElement]}
     previousActivePane.activate()
+
+    perform = (result) =>
+      if result isnt csound.SUCCESS
+        csound.Reset @Csound
+        return
+      result = csound.Start @Csound
+      if result is csound.SUCCESS
+        csound.PerformAsync @Csound, (result) =>
+          csound.Reset @Csound
+      else
+        csound.Reset @Csound
+
     switch editor.getGrammar().name
       when 'Csound Document'
+        disposable = editor.onDidSave =>
+          # The Csound API function csoundCompileCsd can call csoundCompile,
+          # which calls csoundStart
+          # (https://github.com/csound/csound/blob/develop/Top/main.c#L494). The
+          # API function csoundCompileCsdText added in commit 6770316
+          # (https://github.com/csound/csound/commit/6770316cd9fd6e9c55f9730910a0a6c09a671c20)
+          # calls csoundCompileCsd with the path of a temporary CSD file. The
+          # API function csoundCompileArgs seems to be the only way to compile a
+          # CSD file without also starting Csound.
+          perform csound.CompileArgs(@Csound, ['csound', editor.getPath()])
+          disposable.dispose()
         editor.save()
-        # The Csound API function csoundCompileCsd can call csoundCompile,
-        # which calls csoundStart
-        # (https://github.com/csound/csound/blob/develop/Top/main.c#L494). The
-        # API function csoundCompileCsdText added in commit 6770316
-        # (https://github.com/csound/csound/commit/6770316cd9fd6e9c55f9730910a0a6c09a671c20)
-        # calls csoundCompileCsd with the path of a temporary CSD file. The API
-        # function csoundCompileArgs seems to be the only way to compile a CSD
-        # file without also starting Csound.
-        result = csound.CompileArgs @Csound, ['csound', editor.getPath()]
       else
-        result = csound.CompileOrc @Csound, editor.getText()
-    if result isnt csound.SUCCESS
-      csound.Reset @Csound
-      return
-
-    result = csound.Start @Csound
-    if result is csound.SUCCESS
-      csound.PerformAsync @Csound, (result) =>
-        csound.Reset @Csound
-    else
-      csound.Reset @Csound
+        perform csound.CompileOrc(@Csound, editor.getText())
 
   showHelpForOpcode: (opcodeName) ->
     filename = if opcodeName is '0dbfs' then 'Zerodbfs' else opcodeName
