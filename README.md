@@ -1,9 +1,11 @@
 # Csound IDE for Atom
 
+[![Build Status](https://travis-ci.org/nwhetsell/ide-csound.svg?branch=master)](https://travis-ci.org/nwhetsell/ide-csound)
+
 This [Atom](https://atom.io) package adds commands for
 
 1. running [Csound](https://en.wikipedia.org/wiki/Csound) and displaying Csound output; and
-2. displaying descriptions of opcodes from [Csound’s manual](http://csound.github.io/docs/manual/PartReference.html).
+2. displaying descriptions of opcodes from [Csound’s manual](https://csound.com/docs/manual/PartReference.html).
 
 ## Installing
 
