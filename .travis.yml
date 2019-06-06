@@ -6,4 +6,12 @@ os:
   - linux
   - osx
 
+install:
+  - >
+    if [ "$TRAVIS_OS_NAME" = 'linux' ]; then
+      sudo apt-get --assume-yes install libboost-dev;
+    else
+      brew install csound;
+    fi
+
 script: curl --silent https://raw.githubusercontent.com/atom/ci/master/build-package.sh | sh
