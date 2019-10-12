@@ -12,5 +12,6 @@
  build_script:
    - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/atom/ci/master/build-package.ps1'))
 
- skip_tags: true
- test: off
+platform: x64
+skip_tags: true
+test: off
