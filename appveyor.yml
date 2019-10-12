@@ -1,16 +1,16 @@
 # https://github.com/atom/ci
 
- install:
-   # Install Csound; see https://www.appveyor.com/docs/how-to/download-file.
-   - ps: Start-FileDownload 'https://github.com/csound/csound/releases/download/6.13.0/Csound6.13.0_Windows_x64-installer.exe'
-   - ps: Start-Process Csound6.13.0_Windows_x64-installer.exe '/verySilent /noRestart' -Wait
-   - set PATH=%PATH%;%ProgramFiles%\Csound6_x64\bin
-   # Set environment variables to build the csound-api package.
-   - set CL=/I"C:\Libraries\boost_1_69_0" /I"%ProgramFiles%\Csound6_x64\include"
-   - set LINK="%ProgramFiles%\Csound6_x64\lib\csound64.lib"
+install:
+  # Install Csound; see https://www.appveyor.com/docs/how-to/download-file.
+  - ps: Start-FileDownload 'https://github.com/csound/csound/releases/download/6.13.0/Csound6.13.0_Windows_x64-installer.exe'
+  - ps: Start-Process Csound6.13.0_Windows_x64-installer.exe '/verySilent /noRestart' -Wait
+  - set PATH=%PATH%;%ProgramFiles%\Csound6_x64\bin
+  # Set environment variables to build the csound-api package.
+  - set CL=/I"C:\Libraries\boost_1_69_0" /I"%ProgramFiles%\Csound6_x64\include"
+  - set LINK="%ProgramFiles%\Csound6_x64\lib\csound64.lib"
 
- build_script:
-   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/atom/ci/master/build-package.ps1'))
+build_script:
+  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/atom/ci/master/build-package.ps1'))
 
 platform: x64
 skip_tags: true
