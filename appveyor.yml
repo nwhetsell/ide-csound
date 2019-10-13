@@ -11,9 +11,13 @@ install:
 
 # TODO: This results in
 #   error C2719: '_Val': formal parameter with requested alignment of 8 won't be aligned (compiling source file ..\src\csound-api.cc)
-# when building the csound-api Node.js Addon. However, this error does not occur
+# when building the csound-api Node.js Addon. However, this error doesn’t occur
 # when building csound-api alone (that is, not using the Atom build script):
-# https://ci.appveyor.com/project/nwhetsell/csound-api.
+# https://ci.appveyor.com/project/nwhetsell/csound-api. Adding
+#   #define BOOST_LOCKFREE_FORCE_BOOST_ATOMIC
+# somewhere may fix this (see
+# https://github.com/boostorg/lockfree/issues/42#issuecomment-456379688), but
+# it’s unclear why this would be necessary.
 build_script:
   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/atom/ci/master/build-package.ps1'))
 
