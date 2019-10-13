@@ -9,6 +9,11 @@ install:
   - set CL=/I"C:\Libraries\boost_1_69_0" /I"%ProgramFiles%\Csound6_x64\include"
   - set LINK="%ProgramFiles%\Csound6_x64\lib\csound64.lib"
 
+# TODO: This results in
+#   error C2719: '_Val': formal parameter with requested alignment of 8 won't be aligned (compiling source file ..\src\csound-api.cc)
+# when building the csound-api Node.js Addon. However, this error does not occur
+# when building csound-api alone (that is, not using the Atom build script):
+# https://ci.appveyor.com/project/nwhetsell/csound-api.
 build_script:
   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/atom/ci/master/build-package.ps1'))
 
