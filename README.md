@@ -4,8 +4,9 @@
 
 This [Atom](https://atom.io) package adds commands for
 
-1. running [Csound](https://en.wikipedia.org/wiki/Csound) and displaying Csound output; and
-2. displaying descriptions of opcodes from [Csound’s manual](https://csound.com/docs/manual/PartReference.html).
+1. Running [Csound](https://en.wikipedia.org/wiki/Csound) and displaying Csound output
+2. Stopping Csound
+3. Displaying descriptions of opcodes from [Csound’s manual](https://csound.com/docs/manual/PartReference.html)
 
 ## Installing
 
