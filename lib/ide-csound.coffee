@@ -37,6 +37,7 @@ Csound =
 
     @subscriptions = new CompositeDisposable
     @subscriptions.add atom.commands.add 'atom-workspace', 'ide-csound:run': => @run()
+    @subscriptions.add atom.commands.add 'atom-workspace', 'ide-csound:stop': => @stop()
     @subscriptions.add atom.commands.add 'atom-workspace', 'ide-csound:show-help-for-selected-opcode': => @showHelpForSelectedOpcode()
 
   deactivate: ->
@@ -78,6 +79,9 @@ Csound =
         editor.save()
       else
         perform csound.CompileOrc(@Csound, editor.getText())
+
+  stop: ->
+    csound.Stop @Csound
 
   showHelpForOpcode: (opcodeName) ->
     filename = if opcodeName is '0dbfs' then 'Zerodbfs' else opcodeName

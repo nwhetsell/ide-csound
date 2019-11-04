@@ -16,6 +16,10 @@
           'command': 'ide-csound:run'
         }
         {
+          'label': 'Stop'
+          'command': 'ide-csound:stop'
+        }
+        {
           'label': 'Show Help for Selected Opcode'
           'command': 'ide-csound:show-help-for-selected-opcode'
         }
