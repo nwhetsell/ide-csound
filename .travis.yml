@@ -28,6 +28,7 @@ install:
       # Get csound-api dependencies.
       sudo apt-get --assume-yes install libboost-dev
     else
+      brew uninstall python@2
       brew install csound
     fi
 
