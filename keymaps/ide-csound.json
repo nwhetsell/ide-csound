@@ -1,0 +1,7 @@
+{
+  "atom-workspace":
+    {
+      "alt-r": "ide-csound:run",
+      "shift-f1": "ide-csound:show-help-for-selected-opcode"
+    }
+}
