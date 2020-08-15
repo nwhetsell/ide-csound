@@ -6,16 +6,15 @@ jobs:
   include:
     - os: linux
     - os: osx
-      osx_image: xcode11.3
 
 install:
   - |
     if [ "$TRAVIS_OS_NAME" = 'linux' ]; then
       # Build Csound.
       sudo apt-get --assume-yes install libsndfile1-dev
-      wget --no-verbose https://github.com/csound/csound/archive/6.14.0.tar.gz
-      tar -xf 6.14.0.tar.gz
-      cd csound-6.14.0
+      wget --no-verbose https://github.com/csound/csound/archive/6.15.0.tar.gz
+      tar -xf 6.15.0.tar.gz
+      cd csound-6.15.0
       mkdir build
       cd build
       # When built with DSSI <http://dssi.sourceforge.net> opcodes, attempting
@@ -28,7 +27,6 @@ install:
       # Get csound-api dependencies.
       sudo apt-get --assume-yes install libboost-dev
     else
-      brew uninstall python@2
       brew install csound
     fi
 
