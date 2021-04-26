@@ -1,0 +1,65 @@
+name: CI
+
+on: [push, pull_request]
+
+env:
+  CI: true
+
+jobs:
+  Test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        channel: [stable, beta]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+
+    - name: Set up Atom
+      uses: UziTech/action-setup-atom@v2
+      with:
+        version: ${{ matrix.channel }}
+
+    - name: Install Csound on Linux
+      run: |
+        sudo apt-get --assume-yes install libsndfile1-dev
+        wget --no-verbose https://github.com/csound/csound/archive/6.15.0.tar.gz
+        tar -xf 6.15.0.tar.gz
+        cd csound-6.15.0
+        mkdir build
+        cd build
+        cmake .. -DBUILD_DSSI_OPCODES=OFF
+        make
+        sudo make install
+        sudo ldconfig
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+    - name: Install Csound on macOS
+      run: brew install csound
+      if: ${{ matrix.os == 'macos-latest' }}
+    - name: Install Csound on Windows
+      run: |
+        curl.exe --location --remote-name --remote-header-name --show-error --silent https://github.com/csound/csound/releases/download/6.15.0/csound-windows_x86_64-6.15.0-installer.exe
+        Start-Process csound-windows_x86_64-6.15.0-installer.exe '/verySilent /noRestart' -Wait
+        Add-Content $Env:GITHUB_PATH "$Env:ProgramFiles\Csound6_x64\bin" -Encoding utf8
+      if: ${{ matrix.os == 'windows-latest' }}
+
+    - name: Install csound-api dependencies on Linux
+      run: sudo apt-get --assume-yes install libboost-dev
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+    - name: Install csound-api dependencies on Windows
+      run: choco install boost-msvc-14.1 --no-progress
+      if: ${{ matrix.os == 'windows-latest' }}
+
+    - name: Install package dependencies on non-Windows
+      run: apm install
+      if: ${{ matrix.os != 'windows-latest' }}
+    - name: Install package dependencies on Windows
+      run: |
+        $Env:CL = "/I`"C:\local\boost_1_74_0`" /I`"$Env:ProgramFiles\Csound6_x64\include`""
+        $Env:LINK = "`"$Env:ProgramFiles\Csound6_x64\lib\csound64.lib`""
+        apm install
+      if: ${{ matrix.os == 'windows-latest' }}
+
+    - name: Run tests
+      run: atom --test spec
