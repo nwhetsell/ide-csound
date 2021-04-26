@@ -1,6 +1,6 @@
 # Csound IDE for Atom
 
-[![Build Status](https://travis-ci.org/nwhetsell/ide-csound.svg?branch=master)](https://travis-ci.org/nwhetsell/ide-csound)
+[![Actions](https://github.com/nwhetsell/ide-csound/workflows/CI/badge.svg)](https://github.com/nwhetsell/ide-csound/actions?workflow=CI)
 
 This [Atom](https://atom.io) package adds commands for
 
