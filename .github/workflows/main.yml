@@ -9,7 +9,7 @@ jobs:
   Test:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest, windows-2016]
         channel: [stable, beta]
     runs-on: ${{ matrix.os }}
     steps:
@@ -42,7 +42,7 @@ jobs:
         curl.exe --location --remote-name --remote-header-name --show-error --silent https://github.com/csound/csound/releases/download/6.15.0/csound-windows_x86_64-6.15.0-installer.exe
         Start-Process csound-windows_x86_64-6.15.0-installer.exe '/verySilent /noRestart' -Wait
         Add-Content $Env:GITHUB_PATH "$Env:ProgramFiles\Csound6_x64\bin" -Encoding utf8
-      if: ${{ matrix.os == 'windows-latest' }}
+      if: ${{ matrix.os == 'windows-2016' }}
 
     - name: Install csound-api dependencies on Linux
       run: sudo apt-get --assume-yes install libboost-dev
@@ -52,17 +52,17 @@ jobs:
       if: ${{ matrix.os == 'macos-latest' }}
     - name: Install csound-api dependencies on Windows
       run: choco install boost-msvc-14.1 --no-progress
-      if: ${{ matrix.os == 'windows-latest' }}
+      if: ${{ matrix.os == 'windows-2016' }}
 
     - name: Install package dependencies on non-Windows
       run: apm install
-      if: ${{ matrix.os != 'windows-latest' }}
+      if: ${{ matrix.os != 'windows-2016' }}
     - name: Install package dependencies on Windows
       run: |
         $Env:CL = "/I`"C:\local\boost_1_74_0`" /I`"$Env:ProgramFiles\Csound6_x64\include`""
         $Env:LINK = "`"$Env:ProgramFiles\Csound6_x64\lib\csound64.lib`""
         apm install
-      if: ${{ matrix.os == 'windows-latest' }}
+      if: ${{ matrix.os == 'windows-2016' }}
 
     - name: Run tests
       run: atom --test spec
