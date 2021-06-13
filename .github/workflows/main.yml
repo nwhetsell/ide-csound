@@ -24,9 +24,9 @@ jobs:
     - name: Install Csound on Linux
       run: |
         sudo apt-get --assume-yes install libsndfile1-dev
-        wget --no-verbose https://github.com/csound/csound/archive/6.15.0.tar.gz
-        tar -xf 6.15.0.tar.gz
-        cd csound-6.15.0
+        wget --no-verbose https://github.com/csound/csound/archive/refs/tags/6.16.0.tar.gz
+        tar -xf 6.16.0.tar.gz
+        cd csound-6.16.0
         mkdir build
         cd build
         cmake .. -DBUILD_DSSI_OPCODES=OFF
