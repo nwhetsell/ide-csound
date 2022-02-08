@@ -9,7 +9,7 @@ jobs:
   Test:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [macos-latest, ubuntu-latest]
         channel: [stable, beta]
     runs-on: ${{ matrix.os }}
     steps:
@@ -21,29 +21,20 @@ jobs:
       with:
         version: ${{ matrix.channel }}
 
-    - name: Install Csound on Linux
+    - name: Install Boost and Csound on macOS
+      run: brew install boost csound
+      if: ${{ matrix.os == 'macos-latest' }}
+    - name: Install Boost and Csound on Linux
       run: |
-        sudo apt-get --assume-yes install libsndfile1-dev
-        wget --no-verbose https://github.com/csound/csound/archive/refs/tags/6.16.0.tar.gz
-        tar -xf 6.16.0.tar.gz
-        cd csound-6.16.0
-        mkdir build
-        cd build
-        cmake .. -DBUILD_DSSI_OPCODES=OFF
-        make
-        sudo make install
+        sudo apt-get --assume-yes install libboost-dev libsndfile1-dev
+        wget --no-verbose https://github.com/csound/csound/archive/refs/tags/6.17.0.tar.gz
+        tar -xf 6.17.0.tar.gz
+        cd csound-6.17.0
+        cmake -S . -B build -DBUILD_DSSI_OPCODES=OFF
+        cmake --build build
+        sudo cmake --install build
         sudo ldconfig
       if: ${{ matrix.os == 'ubuntu-latest' }}
-    - name: Install Csound on macOS
-      run: brew install csound
-      if: ${{ matrix.os == 'macos-latest' }}
-
-    - name: Install csound-api dependencies on Linux
-      run: sudo apt-get --assume-yes install libboost-dev
-      if: ${{ matrix.os == 'ubuntu-latest' }}
-    - name: Install csound-api dependencies on macOS
-      run: brew install boost
-      if: ${{ matrix.os == 'macos-latest' }}
 
     - name: Install package dependencies
       run: apm install
