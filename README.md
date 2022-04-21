@@ -1,7 +1,5 @@
 # Csound IDE for Atom
 
-[![Actions](https://github.com/nwhetsell/ide-csound/workflows/CI/badge.svg)](https://github.com/nwhetsell/ide-csound/actions?workflow=CI)
-
 This [Atom](https://atom.io) package adds commands for
 
 1. Running [Csound](https://en.wikipedia.org/wiki/Csound) and displaying Csound output
