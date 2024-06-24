@@ -9,7 +9,7 @@ jobs:
   Test:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
     - name: Check out repository
@@ -37,8 +37,16 @@ jobs:
         sudo ldconfig
       if: ${{ matrix.os == 'ubuntu-latest' }}
 
-    - name: Install dependencies
+
+    - name: Install dependencies on macOS
+      run: |
+        export CPATH="$(brew --prefix)/include"
+        export LIBRARY_PATH="$(brew --prefix)/lib"
+        ppm install
+      if: ${{ matrix.os == 'macos-latest' }}
+    - name: Install dependencies on Linux
       run: ppm install
+      if: ${{ matrix.os == 'ubuntu-latest' }}
 
     - name: Run tests
       uses: coactions/setup-xvfb@v1
