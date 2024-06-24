@@ -9,7 +9,7 @@ jobs:
   Test:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-13]
     runs-on: ${{ matrix.os }}
     steps:
     - name: Check out repository
@@ -17,14 +17,14 @@ jobs:
 
     - name: Install Pulsar on macOS
       run: brew install pulsar
-      if: ${{ matrix.os == 'macos-latest' }}
+      if: ${{ matrix.os == 'macos-13' }}
     - name: Install Pulsar on Linux
       uses: pulsar-edit/action-pulsar-dependency@v3
       if: ${{ matrix.os == 'ubuntu-latest' }}
 
     - name: Install Boost and Csound on macOS
       run: brew install boost csound
-      if: ${{ matrix.os == 'macos-latest' }}
+      if: ${{ matrix.os == 'macos-13' }}
     - name: Install Boost and Csound on Linux
       run: |
         sudo apt-get --assume-yes install libboost-dev libsndfile1-dev
@@ -44,7 +44,7 @@ jobs:
         export CPATH="$(brew --prefix)/include"
         export LIBRARY_PATH="$(brew --prefix)/lib"
         ppm install
-      if: ${{ matrix.os == 'macos-latest' }}
+      if: ${{ matrix.os == 'macos-13' }}
     - name: Install dependencies on Linux
       run: ppm install
       if: ${{ matrix.os == 'ubuntu-latest' }}
