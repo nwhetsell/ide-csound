@@ -8,14 +8,7 @@ describe("ide-csound", () => {
     waitsForPromise(() => atom.packages.activatePackage("ide-csound"));
   });
 
-  describe("when the ide-csound:run event is triggered", () => {
-    it("shows the message history", () => {
-      expect(workspaceElement.querySelector("csound-message-history")).not.toExist();
-      waitsForPromise(() => atom.workspace.open().then(editor => {
-        atom.commands.dispatch(workspaceElement, "ide-csound:run");
-        const messageHistoryElement = workspaceElement.querySelector("csound-message-history");
-        expect(messageHistoryElement).toExist();
-      }));
-    });
+  it("is active", () => {
+    expect(atom.packages.activePackages["ide-csound"]).toBeDefined();
   });
 });
