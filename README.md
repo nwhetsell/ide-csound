@@ -1,6 +1,6 @@
-# Csound IDE for Atom
+# Csound IDE for Pulsar and Atom Forks
 
-This [Atom](https://atom.io) package adds commands for
+This [Pulsar](https://pulsar-edit.dev) package adds commands for
 
 1. Running [Csound](https://en.wikipedia.org/wiki/Csound) and displaying Csound output
 2. Stopping Csound
