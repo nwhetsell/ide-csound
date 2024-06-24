@@ -1,5 +1,7 @@
 # Csound IDE for Pulsar and Atom Forks
 
+[![Actions](https://github.com/nwhetsell/ide-csound/workflows/CI/badge.svg)](https://github.com/nwhetsell/ide-csound/actions?workflow=CI)
+
 This [Pulsar](https://pulsar-edit.dev) package adds commands for
 
 1. Running [Csound](https://en.wikipedia.org/wiki/Csound) and displaying Csound output
