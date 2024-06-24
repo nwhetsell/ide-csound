@@ -40,6 +40,7 @@ jobs:
 
     - name: Install dependencies on macOS
       run: |
+        pip install setuptools
         export CPATH="$(brew --prefix)/include"
         export LIBRARY_PATH="$(brew --prefix)/lib"
         ppm install
