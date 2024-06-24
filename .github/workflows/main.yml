@@ -1,0 +1,46 @@
+name: CI
+
+on: [push, pull_request]
+
+env:
+  CI: true
+
+jobs:
+  Test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v4
+
+    - name: Install Pulsar on macOS
+      run: brew install pulsar
+      if: ${{ matrix.os == 'macos-latest' }}
+    - name: Install Pulsar on Linux
+      uses: pulsar-edit/action-pulsar-dependency@v3
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+
+    - name: Install Boost and Csound on macOS
+      run: brew install boost csound
+      if: ${{ matrix.os == 'macos-latest' }}
+    - name: Install Boost and Csound on Linux
+      run: |
+        sudo apt-get --assume-yes install libboost-dev libsndfile1-dev
+        wget --no-verbose https://github.com/csound/csound/archive/refs/tags/6.18.0.tar.gz
+        tar -xf 6.18.0.tar.gz
+        cd csound-6.18.0
+        cmake -S . -B build -DBUILD_DSSI_OPCODES=OFF
+        cmake --build build
+        sudo cmake --install build
+        sudo ldconfig
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+
+    - name: Install dependencies
+      run: ppm install
+
+    - name: Run tests
+      uses: coactions/setup-xvfb@v1
+      with:
+        run: pulsar --test spec
