@@ -15,6 +15,10 @@ jobs:
     - name: Check out repository
       uses: actions/checkout@v4
 
+    - name: Install Pulsar dependencies on Linux
+      run: sudo apt install -y libsecret-1-0
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+
     - name: Install Pulsar on macOS
       run: brew install pulsar
       if: ${{ matrix.os == 'macos-13' }}
@@ -37,15 +41,14 @@ jobs:
         sudo ldconfig
       if: ${{ matrix.os == 'ubuntu-latest' }}
 
-
-    - name: Install dependencies on macOS
+    - name: Install package dependencies on macOS
       run: |
         pip install setuptools
         export CPATH="$(brew --prefix)/include"
         export LIBRARY_PATH="$(brew --prefix)/lib"
         ppm install
       if: ${{ matrix.os == 'macos-13' }}
-    - name: Install dependencies on Linux
+    - name: Install package dependencies on Linux
       run: ppm install
       if: ${{ matrix.os == 'ubuntu-latest' }}
 
