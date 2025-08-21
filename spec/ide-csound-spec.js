@@ -4,6 +4,6 @@ describe("ide-csound", () => {
   });
 
   it("is active", () => {
-    expect(atom.packages.activePackages["ide-csound"]).toBeDefined();
+    expect(atom.packages.getActivePackage("ide-csound")).toBeDefined();
   });
 });
