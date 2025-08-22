@@ -1,0 +1,18 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    ignore:
+      # cheerio 1.0.0 requires Node.js 18.17 or later
+      # <https://github.com/cheeriojs/cheerio/releases/tag/v1.0.0>,
+      # but the most recent version of Node.js available in Pulsar (v1.100.0 and
+      # later) is Node.js 14
+      # <https://github.com/pulsar-edit/pulsar/blob/master/CHANGELOG.md#v11000-beta>,
+      # so we must use an old version of cheerio.
+      - dependency-name: cheerio
