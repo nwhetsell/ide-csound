@@ -1,9 +1,9 @@
 describe("ide-csound", () => {
-  beforeEach(async () => {
-    await atom.packages.activate("ide-csound");
+  beforeEach(() => {
+    waitsForPromise(() => atom.packages.activatePackage("ide-csound"));
   });
 
   it("is active", () => {
-    expect(atom.packages.getActivePackage("ide-csound")).toBeDefined();
+    expect(atom.packages.activePackages["ide-csound"]).toBeDefined();
   });
 });
