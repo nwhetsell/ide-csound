@@ -18,6 +18,6 @@
     "cheerio": "0.22.x",
     "csound-api": "latest",
     "d3": "3.x",
-    "fs-plus": "2.x"
+    "fs-plus": "3.x"
   }
 }
