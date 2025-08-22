@@ -16,3 +16,4 @@ updates:
       # <https://github.com/pulsar-edit/pulsar/blob/master/CHANGELOG.md#v11000-beta>,
       # so we must use an old version of cheerio.
       - dependency-name: cheerio
+      - dependency-name: d3
