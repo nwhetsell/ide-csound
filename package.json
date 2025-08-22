@@ -17,7 +17,7 @@
   "dependencies": {
     "cheerio": "0.22.x",
     "csound-api": "latest",
-    "d3": "3.x",
+    "d3": "7.x",
     "fs-plus": "3.x"
   }
 }
