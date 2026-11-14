@@ -7,30 +7,18 @@ env:
 
 jobs:
   Test:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-15]
-      fail-fast: false
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-24.04
     steps:
     - name: Check out repository
       uses: actions/checkout@v7
 
-    - name: Install Pulsar dependencies on Linux
+    - name: Install Pulsar dependencies
       run: sudo apt install -y libsecret-1-0
-      if: ${{ matrix.os == 'ubuntu-latest' }}
 
-    - name: Install Pulsar on macOS
-      run: brew install pulsar
-      if: ${{ matrix.os == 'macos-15' }}
-    - name: Install Pulsar on Linux
+    - name: Install Pulsar
       uses: pulsar-edit/action-pulsar-dependency@v3
-      if: ${{ matrix.os == 'ubuntu-latest' }}
 
-    - name: Install Boost and Csound on macOS
-      run: brew install boost csound
-      if: ${{ matrix.os == 'macos-15' }}
-    - name: Install Boost and Csound on Linux
+    - name: Install Boost and Csound
       run: |
         sudo apt-get --assume-yes install libboost-dev libsndfile1-dev
         wget --no-verbose https://github.com/csound/csound/archive/refs/tags/6.18.0.tar.gz
@@ -40,18 +28,9 @@ jobs:
         cmake --build build
         sudo cmake --install build
         sudo ldconfig
-      if: ${{ matrix.os == 'ubuntu-latest' }}
 
-    - name: Install package dependencies on macOS
-      run: |
-        pip install setuptools
-        export CPATH="$(brew --prefix)/include"
-        export LIBRARY_PATH="$(brew --prefix)/lib"
-        ppm install
-      if: ${{ matrix.os == 'macos-15' }}
-    - name: Install package dependencies on Linux
+    - name: Install package dependencies
       run: ppm install
-      if: ${{ matrix.os == 'ubuntu-latest' }}
 
     - name: Run tests
       uses: coactions/setup-xvfb@v1
