@@ -23,7 +23,7 @@ jobs:
         sudo apt-get --assume-yes install libboost-dev libsndfile1-dev
         wget --no-verbose https://github.com/csound/csound/archive/refs/tags/6.18.1.tar.gz
         tar -xf 6.18.1.tar.gz
-        curl --remote-name 'https://github.com/csound/csound/commit/bb9bafcfa17a87d3733eda1e25a812fd0be08ac6.patch?full_index=1'
+        wget --no-verbose --output-document=bb9bafcfa17a87d3733eda1e25a812fd0be08ac6.patch 'https://github.com/csound/csound/commit/bb9bafcfa17a87d3733eda1e25a812fd0be08ac6.patch?full_index=1'
         cd csound-6.18.1
         git apply ../bb9bafcfa17a87d3733eda1e25a812fd0be08ac6.patch
         cmake -S . -B build -DBUILD_DSSI_OPCODES=OFF
