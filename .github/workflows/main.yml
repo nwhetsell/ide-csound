@@ -26,7 +26,7 @@ jobs:
         wget --no-verbose --output-document=bb9bafcfa17a87d3733eda1e25a812fd0be08ac6.patch 'https://github.com/csound/csound/commit/bb9bafcfa17a87d3733eda1e25a812fd0be08ac6.patch?full_index=1'
         cd csound-6.18.1
         cmake -S . -B build -DBUILD_DSSI_OPCODES=OFF
-        git apply ../bb9bafcfa17a87d3733eda1e25a812fd0be08ac6.patch
+        git apply --verbose ../bb9bafcfa17a87d3733eda1e25a812fd0be08ac6.patch
         cmake --build build
         sudo cmake --install build
         sudo ldconfig
